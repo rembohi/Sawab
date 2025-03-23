@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فهرس القرآن الكريم</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="quran-script.js"></script>
+    <style>
+        /* CSS */
+    
+        body {
+            font-family: 'Amiri', serif;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+            background-color: #f0f0f0;
+               //*make it islamic in body all the project*/
+            background-image: url('islamic-pattern.png');
+            background-repeat: repeat;
+            background-size: 200px;
+            outline: none;
+        }
+
+        .quran-index-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            max-width: 900px;
+            margin: 20px auto;
+            outline:none;
+        }
+
+        .quran-index-container h1 {
+            font-size: 48px;
+            color: #333;
+            margin-bottom: 30px;
+               //*to make it beautiful the top button*/
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            border-bottom: 2px solid #8792ae;
+            padding-bottom: 10px;
+            outline:none;
+        }
+
+        .quran-index-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            outline:none;
+        }
+
+        .quran-button {
+            background-color: #coc8d9;
+            border: 1px solid #8792ae;
+            padding: 15px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 18px;
+            outline:none;
+            color: #333;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .quran-button:hover {
+            background-color: #8792ae;
+            color: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            outline:none;
+        }
+
+        .quran-button span {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            outline:none;
+        }
+
+        #surahContent {
+            margin-top: 30px;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            outline:none;
+        }
+
+        #surahContent h2 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            outline:none;
+        }
+
+        #surahContent #ayahList {
+            font-size: 20px;
+            color: #555;
+            line-height: 2.2;
+            text-align: justify;
+            outline:none;
+        }
+
+        // زر السابق */
+        .back-button {
+            background-color: #E6F4EA;
+            border: 1px solid #3CB371;
+            padding: 15px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #333;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 20px;
+           // Add some spacing */
+            outline:none;
+        }
+
+        .back-button:hover {
+            background-color: #3CB371;
+            color: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            outline:none;
+        }
+
+        .back-button i {
+            margin-left: 5px;
+            outline:none;
+        }
+
+        // Search Box*/
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            outline:none;
+            
+        }
+
+        #searchBox {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            outline:none;
+        }
+
+        /* Search Button*/
+        #searchButton {
+            background-color: #8792ae;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+            outline: none;
+            
+        }
+
+        #searchButton i {
+            margin-right: 5px;
+        }
+    /* Search Button*/
+#searchButton {
+    background-color: #8792ae;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 10px;
+    outline: none; /* إضافة هذا السطر لإزالة التحديد */
+}
+
+#searchButton:focus { /* إضافة هذا الجزء للتأكد من عدم ظهور التحديد عند التركيز على الزر*/
+    outline: none;
+}
+
+#searchButton i {
+    margin-right: 5px;
+}
+
+    </style>
+</head>
+
+<body>
+    
+    <div class="quran-index-container">
+  
+        <button class="quran-button" onclick="goBack()">
+            <span>السابق <i class="fas fa-arrow-right"></i></span>
+        </button>
+
+        <h1>فهرس القرآن الكريم</h1>
+
+   
+        <div class="search-container">
+            <input type="text" id="searchBox" placeholder="ابحث عن سورة..." onkeyup="filterSurahs()">
+            <button id="searchButton" onclick="filterSurahs()">
+                <i class="fas fa-search"></i> بحث
+            </button>
+        </div>
+
+        <!-- فهرس السور -->
+        <div id="quranIndexList" class="quran-index-list">
+            <button class="quran-button" onclick="loadSurah(1)"><span>الفاتحة</span></button>
+            <button class="quran-button" onclick="loadSurah(2)"><span>البقرة</span></button>
+            <button class="quran-button" onclick="loadSurah(3)"><span>آل عمران</span></button>
+            <button class="quran-button" onclick="loadSurah(4)"><span>النساء</span></button>
+            <button class="quran-button" onclick="loadSurah(5)"><span>المائدة</span></button>
+            <button class="quran-button" onclick="loadSurah(6)"><span>الأنعام</span></button>
+            <button class="quran-button" onclick="loadSurah(7)"><span>الأعراف</span></button>
+            <button class="quran-button" onclick="loadSurah(8)"><span>الأنفال</span></button>
+            <button class="quran-button" onclick="loadSurah(9)"><span>التوبة</span></button>
+            <button class="quran-button" onclick="loadSurah(10)"><span>يونس</span></button>
+            <button class="quran-button" onclick="loadSurah(11)"><span>هود</span></button>
+            <button class="quran-button" onclick="loadSurah(12)"><span>يوسف</span></button>
+            <button class="quran-button" onclick="loadSurah(13)"><span>الرعد</span></button>
+            <button class="quran-button" onclick="loadSurah(14)"><span>إبراهيم</span></button>
+            <button class="quran-button" onclick="loadSurah(15)"><span>الحجر</span></button>
+            <button class="quran-button" onclick="loadSurah(16)"><span>النحل</span></button>
+            <button class="quran-button" onclick="loadSurah(17)"><span>الإسراء</span></button>
+            <button class="quran-button" onclick="loadSurah(18)"><span>الكهف</span></button>
+            <button class="quran-button" onclick="loadSurah(19)"><span>مريم</span></button>
+            <button class="quran-button" onclick="loadSurah(20)"><span>طه</span></button>
+            <button class="quran-button" onclick="loadSurah(21)"><span>الأنبياء</span></button>
+            <button class="quran-button" onclick="loadSurah(22)"><span>الحج</span></button>
+            <button class="quran-button" onclick="loadSurah(23)"><span>المؤمنون</span></button>
+            <button class="quran-button" onclick="loadSurah(24)"><span>النور</span></button>
+            <button class="quran-button" onclick="loadSurah(25)"><span>الفرقان</span></button>
+            <button class="quran-button" onclick="loadSurah(26)"><span>الشعراء</span></button>
+            <button class="quran-button" onclick="loadSurah(27)"><span>النمل</span></button>
+            <button class="quran-button" onclick="loadSurah(28)"><span>القصص</span></button>
+            <button class="quran-button" onclick="loadSurah(29)"><span>العنكبوت</span></button>
+            <button class="quran-button" onclick="loadSurah(30)"><span>الروم</span></button>
+            <button class="quran-button" onclick="loadSurah(31)"><span>لقمان</span></button>
+            <button class="quran-button" onclick="loadSurah(32)"><span>السجدة</span></button>
+            <button class="quran-button" onclick="loadSurah(33)"><span>الأحزاب</span></button>
+            <button class="quran-button" onclick="loadSurah(34)"><span>سبأ</span></button>
+            <button class="quran-button" onclick="loadSurah(35)"><span>فاطر</span></button>
+            <button class="quran-button" onclick="loadSurah(36)"><span>يس</span></button>
+            <button class="quran-button" onclick="loadSurah(37)"><span>الصافات</span></button>
+            <button class="quran-button" onclick="loadSurah(38)"><span>ص</span></button>
+            <button class="quran-button" onclick="loadSurah(39)"><span>الزمر</span></button>
+            <button class="quran-button" onclick="loadSurah(40)"><span>غافر</span></button>
+            <button class="quran-button" onclick="loadSurah(41)"><span>فصلت</span></button>
+            <button class="quran-button" onclick="loadSurah(42)"><span>الشورى</span></button>
+            <button class="quran-button" onclick="loadSurah(43)"><span>الزخرف</span></button>
+            <button class="quran-button" onclick="loadSurah(44)"><span>الدخان</span></button>
+            <button class="quran-button" onclick="loadSurah(45)"><span>الجاثية</span></button>
+            <button class="quran-button" onclick="loadSurah(46)"><span>الأحقاف</span></button>
+            <button class="quran-button" onclick="loadSurah(47)"><span>محمد</span></button>
+            <button class="quran-button" onclick="loadSurah(48)"><span>الفتح</span></button>
+            <button class="quran-button" onclick="loadSurah(49)"><span>الحجرات</span></button>
+            <button class="quran-button" onclick="loadSurah(50)"><span>ق</span></button>
+            <button class="quran-button" onclick="loadSurah(51)"><span>الذاريات</span></button>
+            <button class="quran-button" onclick="loadSurah(52)"><span>الطور</span></button>
+            <button class="quran-button" onclick="loadSurah(53)"><span>النجم</span></button>
+            <button class="quran-button" onclick="loadSurah(54)"><span>القمر</span></button>
+            <button class="quran-button" onclick="loadSurah(55)"><span>الرحمن</span></button>
+            <button class="quran-button" onclick="loadSurah(56)"><span>الواقعة</span></button>
+            <button class="quran-button" onclick="loadSurah(57)"><span>الحديد</span></button>
+            <button class="quran-button" onclick="loadSurah(58)"><span>المجادلة</span></button>
+            <button class="quran-button" onclick="loadSurah(59)"><span>الحشر</span></button>
+            <button class="quran-button" onclick="loadSurah(60)"><span>الممتحنة</span></button>
+            <button class="quran-button" onclick="loadSurah(61)"><span>الصف</span></button>
+            <button class="quran-button" onclick="loadSurah(62)"><span>الجمعة</span></button>
+            <button class="quran-button" onclick="loadSurah(63)"><span>المنافقون</span></button>
+            <button class="quran-button" onclick="loadSurah(64)"><span>التغابن</span></button>
+            <button class="quran-button" onclick="loadSurah(65)"><span>الطلاق</span></button>
+            <button class="quran-button" onclick="loadSurah(66)"><span>التحريم</span></button>
+            <button class="quran-button" onclick="loadSurah(67)"><span>الملك</span></button>
+            <button class="quran-button" onclick="loadSurah(68)"><span>القلم</span></button>
+            <button class="quran-button" onclick="loadSurah(69)"><span>الحاقة</span></button>
+            <button class="quran-button" onclick="loadSurah(70)"><span>المعارج</span></button>
+            <button class="quran-button" onclick="loadSurah(71)"><span>نوح</span></button>
+            <button class="quran-button" onclick="loadSurah(72)"><span>الجن</span></button>
+            <button class="quran-button" onclick="loadSurah(73)"><span>المزمل</span></button>
+            <button class="quran-button" onclick="loadSurah(74)"><span>المدثر</span></button>
+            <button class="quran-button" onclick="loadSurah(75)"><span>القيامة</span></button>
+            <button class="quran-button" onclick="loadSurah(76)"><span>الإنسان</span></button>
+            <button class="quran-button" onclick="loadSurah(77)"><span>المرسلات</span></button>
+            <button class="quran-button" onclick="loadSurah(78)"><span>النبأ</span></button>
+            <button class="quran-button" onclick="loadSurah(79)"><span>النازعات</span></button>
+            <button class="quran-button" onclick="loadSurah(80)"><span>عبس</span></button>
+            <button class="quran-button" onclick="loadSurah(81)"><span>التكوير</span></button>
+            <button class="quran-button" onclick="loadSurah(82)"><span>الانفطار</span></button>
+            <button class="quran-button" onclick="loadSurah(83)"><span>المطففين</span></button>
+            <button class="quran-button" onclick="loadSurah(84)"><span>الانشقاق</span></button>
+            <button class="quran-button" onclick="loadSurah(85)"><span>البروج</span></button>
+            <button class="quran-button" onclick="loadSurah(86)"><span>الطارق</span></button>
+            <button class="quran-button" onclick="loadSurah(87)"><span>الأعلى</span></button>
+            <button class="quran-button" onclick="loadSurah(88)"><span>الغاشية</span></button>
+            <button class="quran-button" onclick="loadSurah(89)"><span>الفجر</span></button>
+            <button class="quran-button" onclick="loadSurah(90)"><span>البلد</span></button>
+            <button class="quran-button" onclick="loadSurah(91)"><span>الشمس</span></button>
+            <button class="quran-button" onclick="loadSurah(92)"><span>الليل</span></button>
+            <button class="quran-button" onclick="loadSurah(93)"><span>الضحى</span></button>
+            <button class="quran-button" onclick="loadSurah(94)"><span>الشرح</span></button>
+            <button class="quran-button" onclick="loadSurah(95)"><span>التين</span></button>
+            <button class="quran-button" onclick="loadSurah(96)"><span>العلق</span></button>
+            <button class="quran-button" onclick="loadSurah(97)"><span>القدر</span></button>
+            <button class="quran-button" onclick="loadSurah(98)"><span>البينة</span></button>
+            <button class="quran-button" onclick="loadSurah(99)"><span>الزلزلة</span></button>
+            <button class="quran-button" onclick="loadSurah(100)"><span>العاديات</span></button>
+            <button class="quran-button" onclick="loadSurah(101)"><span>القارعة</span></button>
+            <button class="quran-button" onclick="loadSurah(102)"><span>التكاثر</span></button>
+            <button class="quran-button" onclick="loadSurah(103)"><span>العصر</span></button>
+            <button class="quran-button" onclick="loadSurah(104)"><span>الهمزة</span></button>
+            <button class="quran-button" onclick="loadSurah(105)"><span>الفيل</span></button>
+            <button class="quran-button" onclick="loadSurah(106)"><span>قريش</span></button>
+            <button class="quran-button" onclick="loadSurah(107)"><span>الماعون</span></button>
+            <button class="quran-button" onclick="loadSurah(108)"><span>الكوثر</span></button>
+            <button class="quran-button" onclick="loadSurah(109)"><span>الكافرون</span></button>
+            <button class="quran-button" onclick="loadSurah(110)"><span>النصر</span></button>
+            <button class="quran-button" onclick="loadSurah(111)"><span>المسد</span></button>
+            <button class="quran-button" onclick="loadSurah(112)"><span>الإخلاص</span></button>
+            <button class="quran-button" onclick="loadSurah(113)"><span>الفلق</span></button>
+            <button class="quran-button" onclick="loadSurah(114)"><span>الناس</span></button>
+        </div>
+
+        
+        <div id="surahContent" style="display: none;">
+            <h2></h2>
+            <div id="ayahList"></div>
+            <button class="quran-button" onclick="goBack()">
+                <span>العودة <i class="fas fa-arrow-left"></i></span>
+            </button>
+        </div>
+    </div>
+    
+  

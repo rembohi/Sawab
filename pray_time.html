@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مواقيت الصلاة</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/kko.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+    
+        body {
+            font-family: 'Amiri', serif;
+            direction: rtl;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            //* زخرفة إسلامية للواجهة
+            background-image: url('islamic-pattern.png');
+            background-repeat: repeat;
+            background-size: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+              توسيط المحتوى*/
+        }
+
+        h1 {
+            color: #8792ae;
+            //تنسيق العنوان*/
+        }
+
+        #prayer-times {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            /* عرض العناصر بجانب بعضها البعض*/
+            margin-bottom: 20px;
+            outline:none;
+        }
+
+        /*  تنسيق الدوائر*/
+        .prayer-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #8792ae;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            text-align: center;
+            flex-direction: column;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            outline:none;
+        }
+
+        .prayer-circle i {
+            font-size: 30px;
+            margin-bottom: 5px;
+            color: #8792ae;
+            outline:none;
+            //* لون الأيقونات*/
+        }
+
+        /*تنسيق اسم الصلاة*/
+        .prayer-name {
+            font-size: 20px;
+            color: #333;
+            outline:none;
+        }
+
+        /*تنسيق الوقت*/
+        .prayer-time {
+            font-size: 16px;
+            color: #555;
+        }
+
+        #city-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        #change-city-button {
+            background-color: #8792ae;
+            color: white;
+            border-radius: 5px;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            outline:none;
+        }
+
+        #next-prayer {
+            font-size: 24px;
+            color: #8792ae;
+            margin-top: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            outline:none;
+        }
+
+        #time-left {
+            font-size: 32px;
+            font-weight: bold;
+            color: #555;
+            display: block;
+            outline:none;
+            outline:none;
+        }
+
+      //*تنسيق زر الرجوع*/
+        .back-button {
+            background-color: #8792ae;
+            border: 1px solid #8792ae;
+            padding: 15px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #333;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            margin-top: 20px;
+             توسيط الزر
+            margin-left: auto;
+            margin-right: auto;
+            outline:none;
+        }
+
+        .back-button:hover {
+            background-color: #8792ae;
+            color: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            outline:none;
+            
+        }
+body {
+    font-family: 'Amiri', serif;
+    direction: rtl;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    outline:none;
+    /*زخرفة إسلامية للواجهة*/
+    background-image: url('islamic-pattern.png');
+    background-repeat: repeat;
+    background-size: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    outline:none;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    outline:none;
+    /*توسيط المحتوى*/
+}
+
+h1 {
+    color: #8792ae;
+}
+
+/*تنسيق عرض الدوائر بجانب بعضها*/
+#prayer-times {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    /*عرض العناصر بجانب بعضها البعض*/
+}
+
+.prayer-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #8792ae;
+    /*أخضر فاتح*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    text-align: center;
+    flex-direction: column;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.prayer-circle i {
+    font-size: 30px;
+    margin-bottom: 5px;
+    color: #3CB371;
+      لون الأيقونات
+}
+
+/*تنسيق اسم الصلاة*/
+.prayer-name {
+    font-size: 20px;
+    color: #333;
+}
+
+/*تنسيق الوقت*/
+.prayer-time {
+    font-size: 16px;
+    color: #555;
+}
+
+#city-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+#change-city-button {
+    background-color: #8792ae;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/*تنسيق الوقت المتبقي*/
+#next-prayer {
+    font-size: 24px;
+    color: #3CB371;
+    margin-top: 30px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+#time-left {
+    font-size: 32px;
+    font-weight: bold;
+    color: #555;
+    display: block;
+}
+
+/*تنسيق زر الرجوع*/
+.back-button {
+    background-color: #8792ae;
+    border: 1px solid #8792ae;
+    padding: 15px 25px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #333;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.back-button:hover {
+    background-color: #8792ae;
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.back-button i {
+    margin-left: 5px;
+}
+
+        .back-button i {
+            margin-left: 5px;
+        }
+    <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مواقيت الصلاة</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Amiri', serif;
+            direction: rtl;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+                
+            background-image: url('islamic-pattern.png');
+            background-repeat: repeat;
+            background-size: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            outline:none;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            outline:none;
+            توسيط المحتوى
+        }
+
+        h1 {
+            color: #8792ae;
+        }
+
+        // تنسيق عرض الدوائر
+        #prayer-times {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            outline:none;
+                  عرض العناصر بجانب بعضها البعض
+        }
+
+        .prayer-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #e3e8ef;
+            outline:none;
+         //أخضر فاتح
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            text-align: center;
+            flex-direction: column;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            outline:none;
+        }
+
+        .prayer-circle i {
+            font-size: 30px;
+            margin-bottom: 5px;
+            color: #3CB371;
+            outline:none;
+               لون الأيقونات
+        }
+
+        /*تنسيق اسم الصلاة*/
+        .prayer-name {
+            font-size: 20px;
+            color: #333;
+            outline:none;
+        }
+
+        //تنسيق الوقت
+        .prayer-time {
+            font-size: 16px;
+            color: #555;
+            outline:none;
+        }
+
+        #city-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            outline:none;
+        }
+
+        #change-city-button {
+            background-color: #8792ae;
+            color: white;
+            border-radius: 5px;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            outline:none;
+        }
+
+        /*تنسيق الوقت المتبقي*/
+        #next-prayer {
+            font-size: 24px;
+            color: #8792ae;
+            margin-top: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            outline:none;
+        }
+
+        #time-left {
+            font-size: 32px;
+            font-weight: bold;
+            color: #555;
+            display: block;
+            outline:none;
+        }
+
+        /*تنسيق زر الرجوع*/
+        .back-button {
+            background-color: #e3e8ef;
+            border: 1px solid #8792ae;
+            padding: 15px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #333;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 20px;
+            outline:none;
+        }
+
+        .back-button:hover {
+            background-color: #bfcae2;
+            color: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            outline:none;
+        }
+
+        .back-button i {
+            margin-left: 5px;
+            outline:none;
+        }
+    </style>
+</head>
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>مواقيت الصلاة</h1>
+        <input type="text" id="city-input" placeholder="أدخل اسم المدينة">
+        <button id="change-city-button" onclick="changeCity()">تغيير المدينة</button>
+
+        <div id="prayer-times">
+            <!-- سيتم إضافة الدوائر هنا بواسطة JavaScript-->
+        </div>
+
+      
+        <div id="next-prayer"> <span id="prayer-name"></span>
+            <span id="time-left"></span>
+        </div>
+
+       
+        <button class="back-button" onclick="goBack()">
+            <span>السابق <i class="fas fa-arrow-right"></i></span>
+        </button>
+    </div>
+
+    <script>
+        let prayerTimesData;/* لتخزين مواقيت الصلاة*/
+
+        function goBack() {
+            window.location.href = "look.html";
+        }
+
+        async function getPrayerTimes(city) {
+            const apiUrl = `http://api.aladhan.com/v1/timingsByCity?city=${city}&country=EG&method=8`;
+
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                if (data.code === 200) {
+                    prayerTimesData = data.data.timings;
+                    displayPrayerTimes(prayerTimesData);
+                    updateNextPrayer(); /*تحديث الوقت المتبقي*/
+                    setInterval(updateNextPrayer, 1000);
+                    /*تحديث الوقت المتبقي كل ثانية*/
+
+                } else {
+                    document.getElementById('prayer-times').innerHTML = '<p>فشل في جلب مواقيت الصلاة.</p>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('prayer-times').innerHTML = '<p>حدث خطأ في الشبكة.</p>';
+            }
+        }
+
+        function changeCity() {
+            const city = document.getElementById('city-input').value;
+            getPrayerTimes(city);
+        }
+
+        function convertTo12Hour(time24) {
+            let [hours, minutes] = time24.split(':');
+            let period = 'AM';
+            hours = parseInt(hours);
+
+            if (hours >= 12) {
+                period = 'PM';
+                if (hours > 12) {
+                    hours -= 12;
+                }
+            }
+            if (hours === 0) {
+                hours = 12;
+            }
+            return `${hours}:${minutes} ${period}`;
+        }
+
+        function displayPrayerTimes(prayerTimes) {
+            /*تحديد أسماء الصلوات باللغة العربية*/
+            const prayerNames = {
+                Fajr: 'الفجر',
+                Dhuhr: 'الظهر',
+                Asr: 'العصر',
+                Maghrib: 'المغرب',
+                Isha: 'العشاء'
+            };
+
+          //تحديد الأيقونات المناسبة لكل صلاة*
+            const prayerIcons = {
+                Fajr: '<i class="fas fa-sun"></i>',
+                Dhuhr: '<i class="fas fa-sun"></i>',
+                Asr: '<i class="fas fa-sun"></i>',
+                Maghrib: '<i class="fas fa-moon"></i>',
+                Isha: '<i class="fas fa-star"></i>'
+            };
+
+            //* إنشاء دوائر لكل صلاة*
+            let prayerTimesHTML = '';
+            let prayerCount = 0; // لتعقب عدد الصلوات لعرضها بجانب بعضها
+
+            for (const prayer in prayerTimes) {
+                if (prayerNames[prayer] && prayer !== 'Sunset' && prayer !== 'Imsak' && prayer !== 'Midnight' && prayer !== 'Firstthird' && prayer !== 'Lastthird') {
+                    let time12H = convertTo12Hour(prayerTimes[prayer]);
+                    prayerTimesHTML += `
+            <div class="prayer-circle">
+              <i class="${prayerIcons[prayer].slice(12, -2)}"></i>
+              <span class="prayer-name">${prayerNames[prayer]}</span>
+              <span class="prayer-time">${time12H}</span>
+            </div>
+          `;
+        prayerCount++;
+        if (prayerCount % 2 == 0) { // إغلاق div بعد كل صلاتين
+           prayerTimesHTML += '</div><div style="display:flex; justify-content: center;">';
+        }
+    }
+}
+
+// إذا كان عدد الصلوات فردي، أغلق div إذا لم يتم إغلاقه بالفعل
+if (prayerCount % 2 != 0) {
+   prayerTimesHTML += '</div>';
+}
+
+document.getElementById('prayer-times').innerHTML = prayerTimesHTML;
+        }
+
+        function updateNextPrayer() {
+            if (!prayerTimesData) return;
+
+            const now = new Date();
+            let nextPrayerTime = null;
+            let nextPrayerName = null;
+
+            const prayerTimesList = {
+                Fajr: prayerTimesData.Fajr,
+                Dhuhr: prayerTimesData.Dhuhr,
+                Asr: prayerTimesData.Asr,
+                Maghrib: prayerTimesData.Maghrib,
+                Isha: prayerTimesData.Isha
+            };
+
+            for (const prayer in prayerTimesList) {
+                const prayerTime = prayerTimesList[prayer];
+                const [hours, minutes] = prayerTime.split(':');
+                const prayerDateTime = new Date();
+                prayerDateTime.setHours(hours);
+                prayerDateTime.setMinutes(minutes);
+                prayerDateTime.setSeconds(0);
+
+                if (prayerDateTime < now) {
+                    prayerDateTime.setDate(prayerDateTime.getDate() + 1);
+                }
+
+                const timeLeft = prayerDateTime - now;
+
+                if (!nextPrayerTime || timeLeft < nextPrayerTime) {
+                    nextPrayerTime = timeLeft;
+                    nextPrayerName = prayer;
+                }
+            }
+
+            //عرض الوقت المتبقي
+            const timeLeftString = formatTimeLeft(nextPrayerTime);
+            document.getElementById('prayer-name').textContent = `الوقت المتبقي لصلاة ${prayerNames[nextPrayerName]}: `;
+            document.getElementById('time-left').textContent = timeLeftString;
+        }
+
+        function formatTimeLeft(timeLeft) {
+            const seconds = Math.floor((timeLeft / 1000) % 60);
+            const minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
+            const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+
+            return `${hours} ساعة و ${minutes} دقيقة و ${seconds} ثانية`;
+        }
+
+        const prayerNames = {
+            Fajr: 'الفجر',
+            Dhuhr: 'الظهر',
+            Asr: 'العصر',
+            Maghrib: 'المغرب',
+            Isha: 'العشاء'
+        };
+
+        //*تحميل مواقيت الصلاة عند تحميل الصفحة*/
+        getPrayerTimes('Cairo');
+    </script>
+</body>
+
+</html>

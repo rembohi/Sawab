@@ -10,7 +10,6 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script src="quran-script.js"></script>
     <style>
         /* CSS */
     
@@ -48,7 +47,7 @@
                //*to make it beautiful the top button*/
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
             text-align: center;
-            border-bottom: 2px solid #8792ae;
+            border-bottom: 2px solid #3CB371;
             padding-bottom: 10px;
             outline:none;
         }
@@ -64,8 +63,8 @@
         }
 
         .quran-button {
-            background-color: #coc8d9;
-            border: 1px solid #8792ae;
+            background-color: #E6F4EA;
+            border: 1px solid #3CB371;
             padding: 15px 25px;
             border-radius: 30px;
             cursor: pointer;
@@ -82,7 +81,7 @@
         }
 
         .quran-button:hover {
-            background-color: #8792ae;
+            background-color: #3CB371;
             color: #fff;
             transform: translateY(-5px);
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
@@ -175,7 +174,7 @@
 
         /* Search Button*/
         #searchButton {
-            background-color: #8792ae;
+            background-color: #3CB371;
             color: #fff;
             border: none;
             padding: 10px 15px;
@@ -191,7 +190,7 @@
         }
     /* Search Button*/
 #searchButton {
-    background-color: #8792ae;
+    background-color: #3CB371;
     color: #fff;
     border: none;
     padding: 10px 15px;
@@ -353,9 +352,83 @@
             <h2></h2>
             <div id="ayahList"></div>
             <button class="quran-button" onclick="goBack()">
-                <span>العودة <i class="fas fa-arrow-left"></i></span>
+                <span>الرجوع إلى الفهرس <i class="fas fa-arrow-left"></i></span>
             </button>
         </div>
     </div>
-    
-  
+    <script>
+         const baseUrl = 'http://api.alquran.cloud/v1';  // API
+             //Track current Surah*/
+        let currentSurahNumber = 1;
+        const surahNames = [
+ "الفاتحة", "البقرة", "آل عمران", "النساء", "المائدة", "الأنعام", "الأعراف", "الأنفال", "التوبة", "يونس",
+ "هود", "يوسف", "الرعد", "إبراهيم", "الحجر", "النحل", "الإسراء", "الكهف", "مريم", "طه",
+ "الأنبياء", "الحج", "المؤمنون", "النور", "الفرقان", "الشعراء", "النمل", "القصص", "العنكبوت", "الروم",
+ "لقمان", "السجدة", "الأحزاب", "سبأ", "فاطر", "يس", "الصافات", "ص", "الزمر", "غافر",
+ "فصلت", "الشورى", "الزخرف", "الدخان", "الجاثية", "الأحقاف", "محمد", "الفتح", "الحجرات", "ق",
+ "الذاريات", "الطور", "النجم", "القمر", "الرحمن", "الواقعة", "الحديد", "المجادلة", "الحشر", "الممتحنة",
+ "الصف", "الجمعة", "المنافقون", "التغابن", "الطلاق", "التحريم", "الملك", "القلم", "الحاقة", "المعارج",
+ "نوح", "الجن", "المزمل", "المدثر", "القيامة", "الإنسان", "المرسلات", "النبأ", "النازعات", "عبس",
+ "التكوير", "الانفطار", "المطففين", "الانشقاق", "البروج", "الطارق", "الأعلى", "الغاشية", "الفجر", "البلد",
+ "الشمس", "الليل", "الضحى", "الشرح", "التين", "العلق", "القدر", "البينة", "الزلزلة", "العاديات",
+ "القارعة", "التكاثر", "العصر", "الهمزة", "الفيل", "قريش", "الماعون", "الكوثر", "الكافرون", "النصر",
+ "المسد", "الإخلاص", "الفلق", "الناس"
+];
+        //Function load api Surah
+
+        async function loadSurah(surahNumber) {
+            currentSurahNumber = surahNumber;
+            const apiUrl = `${baseUrl}/surah/${surahNumber}?edition=ar.asad`;
+
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                if (data.status === 'OK') {
+                    document.getElementById('quranIndexList').style.display = 'none';
+
+                    const surah = data.data;
+                    const ayahs = surah.ayahs;
+
+                    document.querySelector('#surahContent h2').textContent = surahNames[surahNumber - 1];
+      const ayahList = ayahs.map(ayah => `<p>(${ayah.numberInSurah}) ${ayah.text}</p>`).join('');
+                    document.querySelector('#surahContent #ayahList').innerHTML = ayahList;
+                    document.querySelector('#surahContent').style.display = 'block';
+
+          document.querySelector('#surahContent button').style.display = 'block';
+   //alert if is wrong
+                } else {
+                    console.error('Error fetching Surah:', data.message);
+                    alert('حدث خطأ أثناء جلب السورة.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('حدث خطأ في الشبكة.');
+            }
+        }
+
+        //Function Return page history back
+        function goBack() {
+            window.history.back();
+        }
+
+        function filterSurahs() {
+            var input, filter, quranIndexList, buttons, i, txtValue;
+            input = document.getElementById('searchBox');
+            filter = input.value.toUpperCase();
+            quranIndexList = document.getElementById('quranIndexList');
+            buttons = quranIndexList.getElementsByTagName('button');
+
+            for (i = 0; i < buttons.length; i++) {
+                txtValue = buttons[i].textContent || buttons[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    buttons[i].style.display = "";
+                } else {
+                    buttons[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

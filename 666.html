@@ -3,69 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مواقيت الصلاة في محافظات مصر</title>
+    <title>مواقيت الصلاة</title>
+    <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
             font-family: 'Amiri', serif;
-            text-align: center;
-            background-color: #f0f0f0;
-            padding: 20px;
             direction: rtl;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            background-image: url('islamic-pattern.png');
+            background-repeat: repeat;
+            background-size: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
+
         .container {
-            max-width: 500px;
-            margin: auto;
-            background: white;
+            max-width: 800px;
+            margin: 20px auto;
             padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
         }
+
+        h1 {
+            color: #8792ae;
+        }
+
+        #prayer-times {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .prayer-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .prayer-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #e3e8ef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .prayer-name {
+            font-size: 20px;
+            color: #333;
+        }
+
         .prayer-time {
-            background-color: #8792ae;
-            color: white;
-            margin: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 18px;
-        }
-        input, button {
-            padding: 10px;
-            margin: 5px;
             font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+            color: #555;
         }
-        button {
+
+        #city-input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        #change-city-button {
             background-color: #8792ae;
             color: white;
+            border-radius: 5px;
+            padding: 10px 15px;
+            border: none;
             cursor: pointer;
+            font-size: 16px;
+        }
+
+        #next-prayer {
+            font-size: 24px;
+            color: #8792ae;
+            margin-top: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        #time-left {
+            font-size: 32px;
+            font-weight: bold;
+            color: #555;
+            display: block;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>مواقيت الصلاة في محافظات مصر</h1>
-        <input type="text" id="city-input" placeholder="أدخل اسم المحافظة">
-        <button onclick="getPrayerTimes()">بحث</button>
+        <h1>مواقيت الصلاة</h1>
+        <input type="text" id="city-input" placeholder="أدخل اسم المدينة">
+        <button id="change-city-button" onclick="changeCity()">تحديث المواقيت</button>
         <div id="prayer-times"></div>
+        <h3 id="next-prayer"></h3>
+        <h2 id="time-left"></h2>
     </div>
+
     <script>
-        const prayerTimesData = {'القاهرة': {'الفجر': '4:30 AM', 'الظهر': '12:05 PM', 'العصر': '3:30 PM', 'المغرب': '6:10 PM', 'العشاء': '7:30 PM'}, 'الجيزة': {'الفجر': '4:32 AM', 'الظهر': '12:07 PM', 'العصر': '3:32 PM', 'المغرب': '6:12 PM', 'العشاء': '7:32 PM'}, 'الإسكندرية': {'الفجر': '4:35 AM', 'الظهر': '12:10 PM', 'العصر': '3:35 PM', 'المغرب': '6:15 PM', 'العشاء': '7:35 PM'}, 'الدقهلية': {'الفجر': '4:28 AM', 'الظهر': '12:06 PM', 'العصر': '3:31 PM', 'المغرب': '6:11 PM', 'العشاء': '7:31 PM'}, 'الشرقية': {'الفجر': '4:29 AM', 'الظهر': '12:06 PM', 'العصر': '3:31 PM', 'المغرب': '6:11 PM', 'العشاء': '7:31 PM'}, 'المنوفية': {'الفجر': '4:30 AM', 'الظهر': '12:07 PM', 'العصر': '3:32 PM', 'المغرب': '6:12 PM', 'العشاء': '7:32 PM'}, 'الفيوم': {'الفجر': '4:32 AM', 'الظهر': '12:07 PM', 'العصر': '3:32 PM', 'المغرب': '6:12 PM', 'العشاء': '7:32 PM'}, 'بني سويف': {'الفجر': '4:31 AM', 'الظهر': '12:08 PM', 'العصر': '3:33 PM', 'المغرب': '6:13 PM', 'العشاء': '7:33 PM'}, 'المنيا': {'الفجر': '4:30 AM', 'الظهر': '12:08 PM', 'العصر': '3:34 PM', 'المغرب': '6:14 PM', 'العشاء': '7:34 PM'}, 'أسيوط': {'الفجر': '4:28 AM', 'الظهر': '12:06 PM', 'العصر': '3:32 PM', 'المغرب': '6:12 PM', 'العشاء': '7:32 PM'}, 'سوهاج': {'الفجر': '4:26 AM', 'الظهر': '12:04 PM', 'العصر': '3:29 PM', 'المغرب': '6:09 PM', 'العشاء': '7:29 PM'}, 'قنا': {'الفجر': '4:24 AM', 'الظهر': '12:02 PM', 'العصر': '3:27 PM', 'المغرب': '6:07 PM', 'العشاء': '7:27 PM'}, 'الأقصر': {'الفجر': '4:23 AM', 'الظهر': '12:01 PM', 'العصر': '3:26 PM', 'المغرب': '6:06 PM', 'العشاء': '7:26 PM'}, 'أسوان': {'الفجر': '4:20 AM', 'الظهر': '12:00 PM', 'العصر': '3:25 PM', 'المغرب': '6:05 PM', 'العشاء': '7:25 PM'}};
+        let prayerTimesData;
+        const prayerNames = { Fajr: "الفجر", Dhuhr: "الظهر", Asr: "العصر", Maghrib: "المغرب", Isha: "العشاء" };
 
-        function getPrayerTimes() {
-            let city = document.getElementById("city-input").value.trim();
-            let times = prayerTimesData[city];
+        async function getPrayerTimes(city) {
+            const apiUrl = `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=EG&method=8`;
 
-            if (times) {
-                let content = '';
-                for (let prayer in times) {
-                    content += `<div class="prayer-time">${prayer}: ${times[prayer]}</div>`;
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                if (data.code === 200) {
+                    prayerTimesData = data.data.timings;
+                    displayPrayerTimes();
+                    updateNextPrayer();
+                    setInterval(updateNextPrayer, 1000);
+                } else {
+                    document.getElementById('prayer-times').innerHTML = '<p>فشل في جلب مواقيت الصلاة.</p>';
                 }
-                document.getElementById('prayer-times').innerHTML = content;
-            } else {
-                document.getElementById('prayer-times').innerHTML = "<p>المحافظة غير موجودة، حاول إدخال اسم صحيح.</p>";
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('prayer-times').innerHTML = '<p>حدث خطأ في الاتصال بالخادم.</p>';
             }
         }
+
+        function changeCity() {
+            const city = document.getElementById("city-input").value;
+            if (city) {
+                getPrayerTimes(city);
+            } else {
+                alert("يرجى إدخال اسم المدينة.");
+            }
+        }
+
+        function displayPrayerTimes() {
+            const prayerTimesDiv = document.getElementById("prayer-times");
+            prayerTimesDiv.innerHTML = "";
+
+            let prayerRow = document.createElement("div");
+            prayerRow.className = "prayer-row";
+
+            let count = 0;
+            for (const prayer in prayerTimesData) {
+                if (prayerNames[prayer]) {
+                    const prayerBox = document.createElement("div");
+                    prayerBox.className = "prayer-circle";
+                    prayerBox.innerHTML = `<strong class="prayer-name">${prayerNames[prayer]}</strong><br><span class="prayer-time">${prayerTimesData[prayer]}</span>`;
+
+                    prayerRow.appendChild(prayerBox);
+                    count++;
+
+                    if (count % 2 === 0) {
+                        prayerTimesDiv.appendChild(prayerRow);
+                        prayerRow = document.createElement("div");
+                        prayerRow.className = "prayer-row";
+                    }
+                }
+            }
+
+            if (count % 2 !== 0) {
+                prayerTimesDiv.appendChild(prayerRow);
+            }
+        }
+
+        function updateNextPrayer() {
+            if (!prayerTimesData) return;
+
+            const now = new Date();
+            let nextPrayerTime = null;
+            let nextPrayerName = null;
+
+            const prayerTimesList = Object.entries(prayerTimesData)
+                .filter(([prayer]) => prayerNames[prayer])
+                .map(([prayer, time]) => {
+                    const [hours, minutes] = time.split(':').map(Number);
+                    let prayerTime = new Date();
+                    prayerTime.setHours(hours, minutes, 0, 0);
+                    if (prayerTime < now) prayerTime.setDate(prayerTime.getDate() + 1);
+                    return { name: prayer, time: prayerTime };
+                })
+                .sort((a, b) => a.time - b.time);
+
+            if (prayerTimesList.length > 0) {
+                nextPrayerTime = prayerTimesList[0].time - now;
+                nextPrayerName = prayerNames[prayerTimesList[0].name];
+            }
+
+            document.getElementById('next-prayer').textContent = `الوقت المتبقي لصلاة ${nextPrayerName}: `;
+            document.getElementById('time-left').textContent = formatTimeLeft(nextPrayerTime);
+        }
+
+        function formatTimeLeft(timeLeft) {
+            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
+            const seconds = Math.floor((timeLeft / 1000) % 60);
+            return `${hours} ساعة و ${minutes} دقيقة و ${seconds} ثانية`;
+        }
+
+        getPrayerTimes('Cairo'); // تحميل مواقيت القاهرة افتراضيًا عند فتح الصفحة
     </script>
 </body>
 </html>

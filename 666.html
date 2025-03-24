@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مواقيت الصلاة في محافظات مصر</title>
+    <style>
+        body {
+            font-family: 'Amiri', serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 20px;
+            direction: rtl;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .prayer-time {
+            background-color: #8792ae;
+            color: white;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #8792ae;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>مواقيت الصلاة في محافظات مصر</h1>
+        <input type="text" id="city-input" placeholder="أدخل اسم المحافظة">
+        <button onclick="getPrayerTimes()">بحث</button>
+        <div id="prayer-times"></div>
+    </div>
+    <script>
+        const prayerTimesData = {'القاهرة': {'الفجر': '4:30 AM', 'الظهر': '12:05 PM', 'العصر': '3:30 PM', 'المغرب': '6:10 PM', 'العشاء': '7:30 PM'}, 'الجيزة': {'الفجر': '4:32 AM', 'الظهر': '12:07 PM', 'العصر': '3:32 PM', 'المغرب': '6:12 PM', 'العشاء': '7:32 PM'}, 'الإسكندرية': {'الفجر': '4:35 AM', 'الظهر': '12:10 PM', 'العصر': '3:35 PM', 'المغرب': '6:15 PM', 'العشاء': '7:35 PM'}, 'الدقهلية': {'الفجر': '4:28 AM', 'الظهر': '12:06 PM', 'العصر': '3:31 PM', 'المغرب': '6:11 PM', 'العشاء': '7:31 PM'}, 'الشرقية': {'الفجر': '4:29 AM', 'الظهر': '12:06 PM', 'العصر': '3:31 PM', 'المغرب': '6:11 PM', 'العشاء': '7:31 PM'}, 'المنوفية': {'الفجر': '4:30 AM', 'الظهر': '12:07 PM', 'العصر': '3:32 PM', 'المغرب': '6:12 PM', 'العشاء': '7:32 PM'}, 'الفيوم': {'الفجر': '4:32 AM', 'الظهر': '12:07 PM', 'العصر': '3:32 PM', 'المغرب': '6:12 PM', 'العشاء': '7:32 PM'}, 'بني سويف': {'الفجر': '4:31 AM', 'الظهر': '12:08 PM', 'العصر': '3:33 PM', 'المغرب': '6:13 PM', 'العشاء': '7:33 PM'}, 'المنيا': {'الفجر': '4:30 AM', 'الظهر': '12:08 PM', 'العصر': '3:34 PM', 'المغرب': '6:14 PM', 'العشاء': '7:34 PM'}, 'أسيوط': {'الفجر': '4:28 AM', 'الظهر': '12:06 PM', 'العصر': '3:32 PM', 'المغرب': '6:12 PM', 'العشاء': '7:32 PM'}, 'سوهاج': {'الفجر': '4:26 AM', 'الظهر': '12:04 PM', 'العصر': '3:29 PM', 'المغرب': '6:09 PM', 'العشاء': '7:29 PM'}, 'قنا': {'الفجر': '4:24 AM', 'الظهر': '12:02 PM', 'العصر': '3:27 PM', 'المغرب': '6:07 PM', 'العشاء': '7:27 PM'}, 'الأقصر': {'الفجر': '4:23 AM', 'الظهر': '12:01 PM', 'العصر': '3:26 PM', 'المغرب': '6:06 PM', 'العشاء': '7:26 PM'}, 'أسوان': {'الفجر': '4:20 AM', 'الظهر': '12:00 PM', 'العصر': '3:25 PM', 'المغرب': '6:05 PM', 'العشاء': '7:25 PM'}};
+
+        function getPrayerTimes() {
+            let city = document.getElementById("city-input").value.trim();
+            let times = prayerTimesData[city];
+
+            if (times) {
+                let content = '';
+                for (let prayer in times) {
+                    content += `<div class="prayer-time">${prayer}: ${times[prayer]}</div>`;
+                }
+                document.getElementById('prayer-times').innerHTML = content;
+            } else {
+                document.getElementById('prayer-times').innerHTML = "<p>المحافظة غير موجودة، حاول إدخال اسم صحيح.</p>";
+            }
+        }
+    </script>
+</body>
+</html>
